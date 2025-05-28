@@ -66,13 +66,13 @@ pipeline {
         {
             steps {
 
-                sh 'scp webapp/target/webapp.war ec2-user@15.206.128.161:/usr/share/tomcat/webapps/'
+                sshagent(['DEVCICD']) {
+                   sh 'scp -o StrictHostKeyChecking=no webapp/target/webapp.war ec2-user@15.206.128.161:/usr/share/tomcat/webapps/'
+                    }
 
                 }
             }
         }
 
-
-
-    }
+}
 
