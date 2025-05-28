@@ -8,6 +8,47 @@ pipeline {
             }
 
         }
+
+        stage('code validate')
+        {
+            steps {
+
+                withMaven(
+                    globalMavenSettingsConfig: '', jdk: 'JDK_HOME', maven: 'MAVEN_HOME',
+                    mavenSettingsConfig: '', traceability: true) {
+                    sh 'mvn validate'
+                }
+            }
+        }
+
+
+        stage('code compile')
+        {
+            steps {
+
+                withMaven(
+                    globalMavenSettingsConfig: '', jdk: 'JDK_HOME', maven: 'MAVEN_HOME',
+                    mavenSettingsConfig: '', traceability: true) {
+                    sh 'mvn compile'
+                }
+            }
+        }
+
+
+
+        stage('code test')
+        {
+            steps {
+
+                withMaven(
+                    globalMavenSettingsConfig: '', jdk: 'JDK_HOME', maven: 'MAVEN_HOME',
+                    mavenSettingsConfig: '', traceability: true) {
+                    sh 'mvn test'
+                }
+            }
+        }
+
+
         stage('code build')
         {
             steps {
@@ -19,5 +60,19 @@ pipeline {
                 }
             }
         }
+
+
+        stage('code deploy')
+        {
+            steps {
+
+                sh 'scp webapp/target/webapp.war ec2-user@15.206.128.161:/usr/share/tomcat/webapps/'
+
+                }
+            }
+        }
+
+
+
     }
-}
+
